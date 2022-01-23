@@ -2,9 +2,9 @@ import React , { useEffect , useState } from 'react';
 //API
 import { getProducts } from "../Services/api";
 
-const ProdcutsContext = React.createContext ();
+export const ProductsContext = React.createContext ();
 
-const ProductContextProvider = (props) => {
+const ProductContextProvider = ( { children } ) => {
     const [ products , setProducts ] = useState ( [] );
     //funci ke tarif mikoni age dakhel useeffect mikhad estefade beshe hamon dakhel tarif kon
     useEffect ( () => {
@@ -18,9 +18,9 @@ const ProductContextProvider = (props) => {
     } , [] )
 
     return (
-        <ProdcutsContext.Provider value={ products }>
-            {props.children}
-        </ProdcutsContext.Provider>
+        <ProductsContext.Provider value={ products }>
+            { children }
+        </ProductsContext.Provider>
     );
 };
 
