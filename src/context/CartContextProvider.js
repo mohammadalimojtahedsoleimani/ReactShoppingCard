@@ -1,4 +1,4 @@
-import React , { useReducer } from 'react';
+import React , { createContext , useReducer } from 'react';
 
 const initialState = {
     selectedItems : [] ,
@@ -27,13 +27,46 @@ const cardReducer = ( state , action ) => {
                 ... state ,
                 selectedItems : [ newSelectedItems ]
             }
+        case "INCREASE":
+            const indexI = state.selectedItems.findIndex ( item => item.id === action.payload.id );
+            state.selectedItems[ indexI ].quantity ++;
+            return {
+                ... state ,
+            }
+        case "DECREASE":
+            const indexD = state.selectedItems.findIndex ( item => item.id === action.payload.id );
+            state.selectedItems[ indexD ].quantity --;
+            return {
+                ... state ,
+            }
+        case "CHECKOUT":
+            return {
+                selectedItems : [] ,
+                itemsCounter : 0 ,
+                total : 0 ,
+                checkout : true
+            }
+        case "CLEAR":
+            return {
+                selectedItems : [] ,
+                itemsCounter : 0 ,
+                total : 0 ,
+                checkout : false
+            }
+        default:
+            return state
     }
 }
-const CartContextProvider = () => {
-    const [ state , dispatch ] = useReducer ( cartReducer , initialState )
+export const CartContext = createContext ();
+const CartContextProvider = ( { children } ) => {
+    const [ state , dispatch ] = useReducer ( cardReducer , initialState )
     return (
         <div>
-
+            {/*    dispatch avali key hast*/ }
+            {/*    to ecma6 mitoni fght state va dispatch khali bedi chon esma yekeie*/ }
+            <CartContext.Provider value={ { state : state , dispatch : dispatch } }>
+                { children }
+            </CartContext.Provider>
         </div>
     );
 };
