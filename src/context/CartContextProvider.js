@@ -5,7 +5,6 @@ const initialState = {
     itemsCounter : 0 ,
     total : 0 ,
     checkout : false
-
 }
 const cardReducer = ( state , action ) => {
     switch ( action.type ) {
@@ -64,7 +63,7 @@ const CartContextProvider = ( { children } ) => {
         <div>
             {/*    dispatch avali key hast*/ }
             {/*    to ecma6 mitoni fght state va dispatch khali bedi chon esma yekeie*/ }
-            <CartContext.Provider value={ { state : state , dispatch : dispatch } }>
+            <CartContext.Provider value={ {  state ,  dispatch } }>
                 { children }
             </CartContext.Provider>
         </div>
