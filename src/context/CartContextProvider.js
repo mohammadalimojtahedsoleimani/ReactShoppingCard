@@ -8,7 +8,7 @@ const initialState = {
 }
 const sumItems = ( items ) => {
     const itemsCounter = items.reduce ( ( total , product ) => total + product.quantity , 0 )
-    const total = items.reduce ( ( total , product ) => total + product.price * product.quantity , 0 ).toFixed ( 2 );
+    let total = items.reduce ( ( total , product ) => total + product.price * product.quantity , 0 ).toFixed ( 2 );
     //chon key va value yeki hastand neyazi be neveshtan nist yekisho benevisim kafie
     return { itemsCounter : itemsCounter , total : total }
 }
