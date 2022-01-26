@@ -6,6 +6,12 @@ const initialState = {
     total : 0 ,
     checkout : false
 }
+const sumItems = ( items ) => {
+    const itemsCounter = items.reduce ( ( total , product ) => total + product.quantity , 0 )
+    const total = items.reduce ( ( total , product ) => total + product.price * product.quantity , 0 ).toFixed ( 2 );
+    //chon key va value yeki hastand neyazi be neveshtan nist yekisho benevisim kafie
+    return { itemsCounter : itemsCounter , total : total }
+}
 const cardReducer = ( state , action ) => {
     switch ( action.type ) {
         case "ADD_ITEM":
@@ -18,25 +24,29 @@ const cardReducer = ( state , action ) => {
             return {
                 ... state ,
 
-                selectedItems : [ ... state.selectedItems ]
+                selectedItems : [ ... state.selectedItems ] ,
+                ... sumItems ( state.selectedItems )
             }
         case "REMOVE_ITEM":
             const newSelectedItems = state.selectedItems.filter ( item => item.id !== action.payload.id );
             return {
                 ... state ,
-                selectedItems : [ newSelectedItems ]
+                selectedItems : [ newSelectedItems ] ,
+                ... sumItems ( state.selectedItems )
             }
         case "INCREASE":
             const indexI = state.selectedItems.findIndex ( item => item.id === action.payload.id );
             state.selectedItems[ indexI ].quantity ++;
             return {
                 ... state ,
+                ... sumItems ( state.selectedItems )
             }
         case "DECREASE":
             const indexD = state.selectedItems.findIndex ( item => item.id === action.payload.id );
             state.selectedItems[ indexD ].quantity --;
             return {
                 ... state ,
+                ... sumItems ( state.selectedItems )
             }
         case "CHECKOUT":
             return {
@@ -63,7 +73,7 @@ const CartContextProvider = ( { children } ) => {
         <div>
             {/*    dispatch avali key hast*/ }
             {/*    to ecma6 mitoni fght state va dispatch khali bedi chon esma yekeie*/ }
-            <CartContext.Provider value={ {  state ,  dispatch } }>
+            <CartContext.Provider value={ { state , dispatch } }>
                 { children }
             </CartContext.Provider>
         </div>
